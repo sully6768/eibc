@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings
+    xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <!-- 
+    <localRepository>/Users/scenglan/.m2/test-repo</localRepository>
+    <localRepository>/Users/sully6768/development/repository</localRepository>
+     -->
+    
+    <!--
+    <offline>true</offline>
+    <offline>false</offline>
+    -->
+    <servers>
+        <server>
+            <id>repo_id</id>
+            <username>repo_username</username>
+            <password>repo_password</password>
+        </server>
+    </servers>
+<!--
+    <mirrors>
+        <mirror>
+            <id>nexus</id>
+            <mirrorOf>*</mirrorOf>
+            <url>http://192.168.180.150:8081/nexus/content/groups/public</url>
+        </mirror>
+    </mirrors>
+-->
+<!--
+    <proxies>
+        <proxy>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>proxy.somewhere.com</host>
+            <port>8080</port>
+            <username>proxyuser</username>
+            <password>somepassword</password>
+            <nonProxyHosts>www.google.com|*.somewhere.com</nonProxyHosts>
+        </proxy>
+    </proxies>
+-->
+    <profiles>
+        <profile>
+            <id>base</id>
+            <properties>
+
+                <!-- ======================================================= -->
+                <!-- MAVEN PLUGIN SETTINGS                                   -->
+                <!-- ======================================================= -->
+                <!-- Source Encoding Properties                              -->
+                <!-- Sets the default file encoding for all filtered and     -->
+                <!-- generated files.                                        -->
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <!-- Source Encoding Properties -->
+        
+                <!-- Compiler Properties -->
+                <maven.compiler.source>1.7</maven.compiler.source>
+                <maven.compiler.target>1.7</maven.compiler.target>
+                <maven.compiler.fork>true</maven.compiler.fork>
+                <maven.compiler.maxmem>256m</maven.compiler.maxmem>
+                <maven.compiler.verbose>true</maven.compiler.verbose>
+                <!-- Compiler Properties -->
+                
+                <!-- Surefire Tests -->
+                <maven.test.skip>false</maven.test.skip>
+                <maven.test.failure.ignore>false</maven.test.failure.ignore>
+                <maven.test.redirectTestOutputToFile>false</maven.test.redirectTestOutputToFile>
+            </properties>
+
+            <repositories>
+                <repository>
+                    <id>repo.adobe.com</id>
+                    <url>http://repo.adobe.com/nexus/content/groups</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>apache-incubating-repository</id>
+                    <name>Apache Incubating Repository</name>
+                    <url>http://people.apache.org/repo/m2-incubating-repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>ibiblio-mirror-repository</id>
+                    <name>iBiblio Mirror</name>
+                    <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+
+                <repository>
+                    <id>repository.apache.org-releases</id>
+                    <name>Apache Release Repository</name>
+                    <url>https://repository.apache.org/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>repository.apache.org-staging</id>
+                    <name>Apache Release Repository</name>
+                    <url>https://repository.apache.org/content/groups/staging</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>repository.apache.org-snapshots</id>
+                    <name>Apache Snapshot Repository</name>
+                    <url>https://repository.apache.org/content/groups/snapshots</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>release.fusesource.org</id>
+                    <name>FuseSource Release Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/fs-public</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>ea.fusesource.org</id>
+                    <name>FuseSource Release Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/ea</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>snapshot.fusesource.org</id>
+                    <name>FuseSource Snapshot Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/fs-public-snapshots</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>oss.sonatype.org-ops4j</id>
+                    <name>OPS4J Repository</name>
+                    <url>https://oss.sonatype.org/content/groups/ops4j</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>oss.sonatype.org-ops4j-snapshot</id>
+                    <name>OPS4J Repository</name>
+                    <url>https://oss.sonatype.org/content/repositories/ops4j-snapshots</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>com.springsource.repository.bundles.release</id>
+                    <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+                    <url>http://repository.springsource.com/maven/bundles/release</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>com.springsource.repository.bundles.external</id>
+                    <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+                    <url>http://repository.springsource.com/maven/bundles/external</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>repo.adobe.com</id>
+                    <url>http://repo.adobe.com/nexus/content/groups</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>apache-incubating-repository</id>
+                    <name>Apache Incubating Repository</name>
+                    <url>http://people.apache.org/repo/m2-incubating-repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ibiblio-mirror-repository</id>
+                    <name>iBiblio Mirror</name>
+                    <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>repository.apache.org-releases</id>
+                    <name>Apache Release Repository</name>
+                    <url>https://repository.apache.org/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>repository.apache.org-staging</id>
+                    <name>Apache Release Repository</name>
+                    <url>https://repository.apache.org/content/groups/staging</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>release.fusesource.org</id>
+                    <name>FuseSource Release Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/fs-public</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ea.fusesource.org</id>
+                    <name>FuseSource Release Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/ea</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>snapshot.fusesource.org</id>
+                    <name>FuseSource Snapshot Repository</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/fs-public-snapshots</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>oss.sonatype.org-ops4j</id>
+                    <name>OPS4J Repository</name>
+                    <url>https://oss.sonatype.org/content/groups/ops4j</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>oss.sonatype.org-ops4j-snapshot</id>
+                    <name>OPS4J Repository</name>
+                    <url>https://oss.sonatype.org/content/repositories/ops4j-snapshots</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+      <!-- Configure the JBoss Integration Platform Maven repository -->
+        <profile>
+            <id>jboss-ip-repository</id>
+            <repositories>
+                <repository>
+                    <id>jboss-ip-repository</id>
+                    <url>http://maven.repository.redhat.com/techpreview/ip6/6.0.0.Beta/maven-repository/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>jboss-ip-repository</id>
+                    <url>http://maven.repository.redhat.com/techpreview/ip6/6.0.0.Beta/maven-repository/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+      <!-- JBoss Techpreview -->
+        <profile>
+            <id>redhat-techpreview-all-repository</id>
+            <repositories>
+                <repository>
+                    <id>redhat-techpreview-all-repository</id>
+                    <name>Red Hat Tech Preview repository (all)</name>
+                    <url>http://maven.repository.redhat.com/techpreview/all/</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>redhat-techpreview-all-repository</id>
+                    <name>Red Hat Tech Preview repository (all)</name>
+                    <url>http://maven.repository.redhat.com/techpreview/all/</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+      <!-- JBoss Snapshot -->
+        <profile>
+            <id>redhat-snapshot-repository</id>
+            <repositories>
+                <repository>
+                    <id>redhat-snapshot-repository</id>
+                    <name>Red Hat Snapshot Repository (all)</name>
+                    <url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>redhat-snapshot-repository</id>
+                    <name>Red Hat Snapshot Repository (all)</name>
+                    <url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+                    <layout>default</layout>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+        <profile>
+            <id>jboss6</id>
+            <activation />
+            <repositories>
+                <repository>
+                    <id>public.jboss.org</id>
+                    <name>JBoss Public Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>jboss6-repository</id>
+                    <name>JBoss 6 Maven Repository</name>
+                    <url>file:///Users/scenglan/.m2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>public.jboss.org</id>
+                    <name>JBoss Public Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>jboss6-plugin-repository</id>
+                    <name>JBoss 6 Maven Plugin Repository</name>
+                    <url>file:///Users/scenglan/.m2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>base</activeProfile>
+        <activeProfile>jboss-ip-repository</activeProfile>
+        <activeProfile>redhat-techpreview-all-repository</activeProfile>
+        <activeProfile>redhat-snapshot-repository</activeProfile>
+        <activeProfile>jboss6</activeProfile>
+    </activeProfiles>
+    <pluginGroups>
+        <pluginGroup>org.apache.maven.plugins</pluginGroup>
+        <pluginGroup>org.fusesource</pluginGroup>
+        <pluginGroup>org.apache.activemq.tooling</pluginGroup>
+        <pluginGroup>org.apache.karaf.tooling</pluginGroup>
+        <pluginGroup>org.ops4j</pluginGroup>
+        <pluginGroup>org.apache.felix</pluginGroup>
+        <pluginGroup>org.codehaus.modello</pluginGroup>
+        <pluginGroup>org.codehaus.mojo</pluginGroup>
+        <pluginGroup>org.jvnet.hudson.tools</pluginGroup>
+        <pluginGroup>io.fabric8</pluginGroup>
+    </pluginGroups>
+</settings>

@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.redhat.training.osgi</groupId>
+		<artifactId>fuse-advanced-services</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>fuse-advanced-services-whiteboard-a</artifactId>
+	<packaging>bundle</packaging>
+
+	<name>Fuse Advanced Services - Whiteboard - A</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.redhat.training.osgi</groupId>
+			<artifactId>fuse-advanced-services-whiteboard-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<inherited>true</inherited>
+				<configuration>
+					<instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+						<Bundle-Activator>com.redhat.training.osgi.whiteboard.activator.WhiteboardSpanishGreetingActivator</Bundle-Activator>
+						<Import-Package>
+							*,
+							!com.redhat.training.osgi.basic.whiteboard.service.*
+						</Import-Package>
+						<Private-Package>
+							com.redhat.training.osgi.whiteboard.service.*,
+						</Private-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+</project>

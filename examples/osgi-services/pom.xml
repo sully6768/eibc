@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<groupId>com.redhat.training.osgi</groupId>
+	<artifactId>fuse-advanced-services</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Fuse Advanced Services</name>
+
+	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<osgi.version>4.3.1</osgi.version>
+		<slf4j.version>1.7.3</slf4j.version>
+        <maven.bundle.plugin.version>2.4.0</maven.bundle.plugin.version>
+        <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
+        <build.helper.maven.plugin.version>1.8</build.helper.maven.plugin.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>${osgi.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>${osgi.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>${maven.bundle.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build.helper.maven.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<modules>
+		<module>fuse-advanced-services-basic-provider</module>
+		<module>fuse-advanced-services-servicetracker</module>
+		<module>fuse-advanced-services-filtering-provider</module>
+		<module>fuse-advanced-services-filtering-consumer</module>
+		<module>fuse-advanced-services-filtering-breakfix-a</module>
+		<module>fuse-advanced-services-managedservice</module>
+		<module>fuse-advanced-services-basic-consumer</module>
+		<module>fuse-advanced-services-servicelistener</module>
+		<module>fuse-advanced-services-managedservicefactory</module>
+		<module>fuse-advanced-services-filtering-breakfix-b</module>
+		<module>fuse-advanced-services-whiteboard-a</module>
+		<module>fuse-advanced-services-whiteboard-api</module>
+		<module>fuse-advanced-services-whiteboard-b</module>
+		<module>fuse-advanced-services-whiteboard-client</module>
+	</modules>
+</project>

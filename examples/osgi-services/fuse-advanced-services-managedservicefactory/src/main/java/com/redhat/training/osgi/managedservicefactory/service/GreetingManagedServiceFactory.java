@@ -52,6 +52,7 @@ public class GreetingManagedServiceFactory implements ManagedServiceFactory {
 				throw new ConfigurationException(NAME_PROP, "Name Property is Required");
 			}
 			else {
+				LOGGER.info("Registering Service PID: " + pid);
 				ServiceRegistration<Greeting> mathServiceOperationRegistration = bundleContext.registerService(Greeting.class, new ManagedServiceFactoryFrenchGreeting(name), properties);
 				services.put(pid, mathServiceOperationRegistration);
 			}
@@ -71,6 +72,9 @@ public class GreetingManagedServiceFactory implements ManagedServiceFactory {
 	}
 	
 	private void unregister(String pid) {
+		
+		LOGGER.info("Unregistering Service PID: " + pid);
+		
 		ServiceRegistration<Greeting> reg = services.get(pid);
 		
 		if(reg != null) {

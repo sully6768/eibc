@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	 xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="
+	 	http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+	 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.org/repos/asf/aries/trunk/blueprint/blueprint-cm/src/main/resources/org/apache/aries/blueprint/compendium/cm/blueprint-cm-1.1.0.xsd
+	 ">
+
+	<!-- Create a matching .cfg file in the FUSE_HOME/etc folder --> 
+	<cm:property-placeholder persistent-id="BlueprintClaim" update-strategy="reload" >
+		<cm:default-properties>
+			<cm:property name="claimType" value="AUTO"/>
+		</cm:default-properties>
+	</cm:property-placeholder>
+	
+
+	<bean id="claimService" class="blueprint.claim.service.impl.ClaimServiceImpl" init-method="createClaimAndPrint">
+		<property name="claimType" value="${claimType}"></property>
+	</bean> 
+</blueprint>

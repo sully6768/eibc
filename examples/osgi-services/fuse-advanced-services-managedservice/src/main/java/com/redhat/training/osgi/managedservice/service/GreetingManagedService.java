@@ -9,8 +9,8 @@ import org.osgi.service.cm.ManagedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.redhat.training.osgi.basic.provider.service.Greeting;
 import com.redhat.training.osgi.managedservice.service.impl.ManagedServiceEnglishGreeting;
+import com.redhat.training.osgi.whiteboard.api.Greeting;
 
 public class GreetingManagedService implements ManagedService {
 		

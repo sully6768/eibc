@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.redhat.training.osgi</groupId>
-			<artifactId>fuse-advanced-services-basic-provider</artifactId>
+			<artifactId>fuse-advanced-services-whiteboard-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

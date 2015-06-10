@@ -1,6 +1,6 @@
 package com.redhat.training.osgi.managedservice.service.impl;
 
-import com.redhat.training.osgi.basic.provider.service.Greeting;
+import com.redhat.training.osgi.whiteboard.api.Greeting;
 
 public class ManagedServiceEnglishGreeting implements Greeting {
 	

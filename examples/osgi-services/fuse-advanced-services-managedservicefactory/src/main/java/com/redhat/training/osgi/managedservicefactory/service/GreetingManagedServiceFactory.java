@@ -12,8 +12,8 @@ import org.osgi.service.cm.ManagedServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.redhat.training.osgi.basic.provider.service.Greeting;
 import com.redhat.training.osgi.managedservicefactory.service.impl.ManagedServiceFactoryFrenchGreeting;
+import com.redhat.training.osgi.whiteboard.api.Greeting;
 
 public class GreetingManagedServiceFactory implements ManagedServiceFactory {
 

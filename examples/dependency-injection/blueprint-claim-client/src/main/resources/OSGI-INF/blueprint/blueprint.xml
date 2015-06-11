@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<blueprint
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+    <bean
+        id="bundle-activator"
+        class="blueprint.claim.activator.Activator"
+        init-method="start"
+        destroy-method="stop">
+        <property
+            name="bundleContext"
+            ref="blueprintBundleContext" />
+    </bean>
+
+    <reference
+        id="claimService"
+        availability="mandatory"
+        interface="blueprint.claim.service.ClaimService">
+        <reference-listener
+            ref="bundle-activator"
+            bind-method="onBindServiceTestAutoClaims"
+            unbind-method="onUnbindService" />
+    </reference>
+
+</blueprint>

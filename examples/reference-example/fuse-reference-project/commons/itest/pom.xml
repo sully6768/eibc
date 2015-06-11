@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright 2012 FuseSource
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.fuse.examples</groupId>
+        <artifactId>org.jboss.fuse.examples.commons</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>org.jboss.fuse.examples.commons.itest</artifactId>
+    <packaging>bundle</packaging>
+    <name>JBoss Fuse :: Examples :: Commons :: Integration Tests</name>
+    <properties>
+        <osgi.export.pkg>
+            ${project.artifactId}
+        </osgi.export.pkg>
+    </properties>
+
+    <dependencies>
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam</artifactId>
+            <version>${pax-exam-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-junit4</artifactId>
+            <version>${pax-exam-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-mvn</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-aether</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>org.apache.karaf.features.core</artifactId>
+            <version>${karaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.tooling.exam</groupId>
+            <artifactId>org.apache.karaf.tooling.exam.options</artifactId>
+            <version>${karaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.tooling.exam</groupId>
+            <artifactId>org.apache.karaf.tooling.exam.container</artifactId>
+            <version>${karaf-version}</version>
+        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>io.fabric8.tooling.testing</groupId> -->
+<!--             <artifactId>pax-exam-karaf</artifactId> -->
+<!--             <version>1.1.0.Beta5</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.fusesource.tooling.testing</groupId> -->
+<!--             <artifactId>pax-exam-karaf</artifactId> -->
+<!--             <version>1.1.0.Beta5</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.openengsb.labs.paxexam.karaf</groupId> -->
+<!--             <artifactId>paxexam-karaf-container</artifactId> -->
+<!--             <version>${paxexam-karaf-container-version}</version> -->
+<!--         </dependency> -->
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>fabric8-karaf</artifactId>
+            <version>1.0.0.redhat-379</version>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

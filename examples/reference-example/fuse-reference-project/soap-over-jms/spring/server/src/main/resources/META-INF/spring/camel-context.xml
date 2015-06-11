@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:camelcxf="http://cxf.apache.org/transports/camel"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd  
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd     
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        http://cxf.apache.org/transports/camel http://cxf.apache.org/transports/camel.xsd">
+
+    <context:property-placeholder
+        properties-ref="properties" />
+
+    <bean
+        id="abstractLoggingInterceptor"
+        abstract="true">
+        <property
+            name="prettyLogging"
+            value="true" />
+    </bean>
+
+    <bean
+        id="loggingInInterceptor"
+        class="org.apache.cxf.interceptor.LoggingInInterceptor"
+        parent="abstractLoggingInterceptor" />
+
+    <bean
+        id="loggingOutInterceptor"
+        class="org.apache.cxf.interceptor.LoggingOutInterceptor"
+        parent="abstractLoggingInterceptor" />
+
+    <jaxws:endpoint
+        id="greeterServer"
+        address="camel://direct:greeterServerEndpoint"
+        implementor="org.jboss.fuse.examples.services.greeter.GreeterImpl">
+        <jaxws:inInterceptors>
+            <ref
+                bean="loggingInInterceptor" />
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <ref
+                bean="loggingOutInterceptor" />
+        </jaxws:outInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref
+                bean="loggingInInterceptor" />
+        </jaxws:inFaultInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref
+                bean="loggingOutInterceptor" />
+        </jaxws:outFaultInterceptors>
+    </jaxws:endpoint>
+
+    <camelContext
+        id="soap.server.camel.context"
+        xmlns="http://camel.apache.org/schema/spring"
+        trace="true">
+
+        <propertyPlaceholder
+            id="soap.server.camel.context.property.placeholder"
+            location="ref:properties" />
+
+        <route
+            id="soap.server.router"
+            trace="true">
+            <from
+                uri="jms:queue:{{soap.server.consumer.inout.queue}}" />
+            <to
+                uri="direct:greeterServerEndpoint" />
+            <setHeader
+                headerName="SOAPJMS_contentType">
+                <constant>text/xml</constant>
+            </setHeader>
+            <setHeader
+                headerName="SOAPJMS_requestURI">
+                <constant>jms://queue:{{soap.server.consumer.inout.queue}}</constant>
+            </setHeader>
+        </route>
+    </camelContext>
+
+    <camelcxf:destination
+        name="*.camel-destination">
+        <!-- you can also using the wild card to specify the camel-destination that you want to configure -->
+        <camelcxf:camelContextRef>soap.server.camel.context</camelcxf:camelContextRef>
+    </camelcxf:destination>
+
+    <bean
+        id="jms"
+        class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property
+            name="connectionFactory"
+            ref="connectionFactory" />
+    </bean>
+
+    <bean
+        id="connectionFactory"
+        class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property
+            name="brokerURL"
+            value="${broker.url}" />
+        <property
+            name="userName"
+            value="${broker.userName}" />
+        <property
+            name="password"
+            value="${broker.password}" />
+    </bean>
+</beans>

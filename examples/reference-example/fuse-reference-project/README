@@ -1,0 +1,100 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License; Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing; software
+ * distributed under the License is distributed on an "AS IS" BASIS;
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND; either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+SOAP/JMS Example using the Camel CXF Transport:
+
+***********************************************
+BEFORE YOU BUILD
+***********************************************
+
+This example uses the JBoss Fuse Full distro as its integration 
+test container.  As this container is not available publicly
+you must first download the container to your local file
+system and then install it into your local repository. 
+
+To add it to your local repository replace the file location
+example below and then execute the following command:
+
+Linux/OSX
+mvn install:install-file -Dfile=<ABSOLUTE PATH TO DISTRO>/jboss-fuse-full-6.1.0.redhat-379.zip \
+ -DgroupId=org.jboss.fuse \
+ -DartifactId=jboss-fuse-full \
+ -Dversion=6.1.0.redhat-379 \
+ -Dpackaging=zip \
+ -DgeneratePom=true
+
+Windows
+mvn install:install-file -Dfile=<PATH TO DISTRO>/jboss-fuse-full-6.1.0.redhat-379.zip ^
+ -DgroupId=org.jboss.fuse ^
+ -DartifactId=jboss-fuse-minimal ^
+ -Dversion=6.1.0.redhat-379 ^
+ -Dpackaging=zip ^
+ -DgeneratePom=true
+
+Once complete you can execute the following to build and install the examples:
+
+mvn clean install
+
+If you would like to see the test output during the build add the following paramater:
+
+mvn clean install -Dmaven.test.redirectTestOutputToFile=false
+
+This will display all the logging for the included JUnit and Failsafe integration tests.
+
+
+**********************************************************************************
+The SOAP/JMS Camel CXF Transport Example with PAX Exam
+**********************************************************************************
+The included code is a multi-project example of how to develop, test and perform
+a full integration tests of a SOAP/JMS web service using the Camel CXF Transport.
+
+The Camel CXF Transport is an extension of the CXF API that allows us to insert
+Camel as the Transport API for CXF allowing us to take advantage of all the goodness
+that Camel has to offer, including its breadth of transport protocols on both
+the Server AND Client side.  This is not something that is available
+to us on the client side when using the Camel CXF Bean approach.  The Camel CXF
+Bean only allows us to change the transport on the server side.
+
+When you think of this there are a number of very simple use cases that come to
+mind including the ability to swap out transport providers using properties
+on both the client and server for any given service.
+
+To demonstrate the example included contains 3 separate top level projects:
+ * commons
+ * services
+ * soap-over-jms
+
+The commons project is our top level project that will contain any reusable
+common or utility code.  In this case it is the parent for the iTest common
+project which has a utility class used to simplify the creation of PAX Exam
+OSGi Integration Tests when using the Fuse ESB as our test container.
+
+The services project is where our WSDL and its associated generated code reside.
+This project contains the Greeter project which is a simple hello world example
+used frequently by the Camel and CXF projects for test and example code.
+This project has been separated out to make it available for both our client
+and server project in the next section.
+
+The soap-over-jms project is the meat of the project that contains Spring DSL 
+example of how to configure both the Server and Client using the Camel CXF Transport.
+Both of these projects are configured to produce a valid OSGi bundle and a Karaf
+Feature XML to simplify deployment into the Fuse ESB container.
+
+In addition to the Client and Server, there is an example of a PAX Exam Integration
+Test configured to use the Fuse ESB as its test container.  Under the src/test/resources
+folder are the test configuration files for the Fuse ESB.  The are configured
+specifically to exercise the SOAP/JMS Client and Server projects.

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2012 FuseSource
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+<features>
+<!--     <repository>mvn:org.apache.karaf.assemblies.features/standard/karaf-version/xml/features</repository> -->
+<!--     <repository>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf-version}/xml/features</repository> -->
+    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf-version}/xml/features</repository>
+    <repository>mvn:org.apache.camel.karaf/apache-camel/${camel-version}/xml/features</repository>
+    <repository>mvn:org.apache.activemq/activemq-karaf/${activemq-version}/xml/features</repository>
+    
+    <feature name="${osgi.symbolic.name}-dependencies" version="${project.version}">
+        <feature version="[5,6)">activemq-camel</feature>
+        <feature version="[2,3)">cxf-jaxws</feature>
+        <feature version="[2,3)">camel-cxf</feature>
+    </feature>
+    
+    <feature name="${osgi.symbolic.name}" version="${project.version}">
+        <feature version="${project.version}">${osgi.symbolic.name}-dependencies</feature>
+        <configfile finalname="/etc/org.jboss.fuse.examples.services.greeter.cfg">mvn:${project.groupId}/${project.artifactId}/${project.version}/properties/config</configfile>
+        <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
+    </feature>
+</features>

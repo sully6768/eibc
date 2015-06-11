@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.fuse.examples</groupId>
+    <artifactId>org.jboss.fuse.examples</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>JBoss Fuse :: Examples</name>
+    <packaging>pom</packaging>
+
+    <prerequisites>
+        <maven>3.0.2</maven>
+    </prerequisites>
+
+    <modules>
+        <module>commons</module>
+        <module>services</module>
+        <module>soap-over-jms</module>
+    </modules>
+
+    <properties>
+        <maven.failsafe.distro.location>/Users/scenglan/Developer/redhat/jboss/jboss-fuse-minimal-6.1.0.redhat-379.zip</maven.failsafe.distro.location>
+        
+        <!-- ********************************************** -->
+        <!-- MAVEN PROPERTIES                               -->
+        <!-- ********************************************** -->
+        <!-- Maven Bundle Plugin Properties -->
+        <!-- See individual projects for Export, Import and Private usage -->
+        <osgi.bundle.name>${project.description}</osgi.bundle.name>
+        <osgi.import.strict.version>version="[$(version;===;${osgi.version}),$(version;==+;${osgi.version}))"</osgi.import.strict.version>
+        <osgi.import.default.version>[$(version;==;$(@)),$(version;+;$(@)))</osgi.import.default.version>
+        <osgi.import.defaults />
+        <osgi.import.before.defaults />
+        <osgi.import.additional />
+        <osgi.import.pkg>${osgi.import.defaults}</osgi.import.pkg>
+        <osgi.import.pkg.final>
+            ${osgi.import.pkg},
+            *
+        </osgi.import.pkg.final>
+        <osgi.activator />
+        <osgi.failok>false</osgi.failok>
+        <osgi.private.pkg>!*</osgi.private.pkg>
+        <osgi.export.pkg>${project.artifactId}</osgi.export.pkg>
+        <osgi.export.pkg.final>${osgi.export.pkg}.*;version=${osgi.version};-noimport:=true</osgi.export.pkg.final>
+        <osgi.export>${osgi.export.pkg.final}</osgi.export>
+        <osgi.split.pkg>-split-package:=first</osgi.split.pkg>
+        <osgi.import>${osgi.import.pkg.final}</osgi.import>
+        <osgi.dynamic />
+        <osgi.symbolic.name>${project.artifactId}</osgi.symbolic.name>
+        <osgi.exclude.dependencies>false</osgi.exclude.dependencies>
+        <osgi.resource>{maven-resources}</osgi.resource>
+        <osgi.services.export />
+        <osgi.embed.dependency>!*</osgi.embed.dependency>
+
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.fork>true</maven.compiler.fork>
+        <maven.compiler.verbose>true</maven.compiler.verbose>
+        <maven.compiler.maxmem>256m</maven.compiler.maxmem>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <fuse-version>6.1.0.redhat-379</fuse-version>
+        <activemq-version>5.9.0.redhat-610379</activemq-version>
+        <camel-version>2.12.0.redhat-610379</camel-version>
+        <cxf-version>2.7.0.redhat-610379</cxf-version>
+
+        <bndlib-version>1.50.0</bndlib-version>
+        <build-helper-plugin-version>1.7</build-helper-plugin-version>
+        <junit-version>4.11</junit-version>
+        <karaf-version>2.3.0.redhat-610379</karaf-version>
+        <log4j-version>1.2.17</log4j-version>
+        <maven-bundle-plugin-version>2.3.7</maven-bundle-plugin-version>
+        <maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
+        <maven-depends-plugin-version>1.2</maven-depends-plugin-version>
+        <maven-failsafe-plugin-version>2.11</maven-failsafe-plugin-version>
+        <pax-exam-version>2.6.0</pax-exam-version>
+        <paxexam-karaf-container-version>0.5.3</paxexam-karaf-container-version>
+        <slf4j-api-version>1.7.5</slf4j-api-version>
+        <slf4j-version>1.7.5</slf4j-version>
+        <spring-osgi-version>1.2.1</spring-osgi-version>
+        <spring-version>3.2.8.RELEASE</spring-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>biz.aQute</groupId>
+                <artifactId>bndlib</artifactId>
+                <version>${bndlib-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-jms</artifactId>
+                <version>${camel-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-sjms</artifactId>
+                <version>${camel-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-client</artifactId>
+                <version>${activemq-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-core</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-context</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>${activemq-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-core</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-context</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-camel</artifactId>
+                <version>${activemq-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-cxf</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-bindings-jbi</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-cxf-transport</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-core</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-beans</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-asm</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${cxf-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.osgi</groupId>
+                <artifactId>spring-osgi-core</artifactId>
+                <version>${spring-osgi-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.aop</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.osgi</groupId>
+                <artifactId>spring-osgi-core</artifactId>
+                <version>${spring-osgi-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.aop</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>org.springframework.context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${maven-bundle-plugin-version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <excludeDependencies>${osgi.exclude.dependencies}</excludeDependencies>
+                        <instructions>
+                            <Bundle-Name>${osgi.bundle.name}</Bundle-Name>
+                            <Bundle-SymbolicName>${osgi.symbolic.name}</Bundle-SymbolicName>
+                            <Bundle-DocURL>http://fabric.fusesource.org/</Bundle-DocURL>
+                            <Bundle-Activator>${osgi.activator}</Bundle-Activator>
+                            <Export-Package>${osgi.export}</Export-Package>
+                            <Import-Package>${osgi.import}</Import-Package>
+                            <DynamicImport-Package>${osgi.dynamic}</DynamicImport-Package>
+                            <Private-Package>${osgi.private.pkg}</Private-Package>
+                            <Implementation-Title>FuseSource FON</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Include-Resource>${osgi.resource}</Include-Resource>
+                            <_versionpolicy>${osgi.import.default.version}</_versionpolicy>
+                            <_failok>${osgi.failok}</_failok>
+                            <Export-Service>${osgi.services.export}</Export-Service>
+                            <Embed-Dependency>${osgi.embed.dependency}</Embed-Dependency>
+                            <_dsannotations>${project.artifactId}.*</_dsannotations>
+                            <_dsannotations-inherit>true</_dsannotations-inherit>
+                        </instructions>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>cleanVersions</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>cleanVersions</goal>
+                            </goals>
+                            <configuration>
+                                <versions>
+                                    <karaf.osgi.version>${karaf-version}</karaf.osgi.version>
+                                </versions>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.servicemix.tooling</groupId>
+                    <artifactId>depends-maven-plugin</artifactId>
+                    <version>${maven-depends-plugin-version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-depends-file</id>
+                            <goals>
+                                <goal>generate-depends-file</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin-version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <failsafe.karafGroupdId>io.fabric8</failsafe.karafGroupdId>
+                            <failsafe.karafArtifactId>fabric8-karaf</failsafe.karafArtifactId>
+                            <failsafe.karafVersion>1.0.0.redhat-379</failsafe.karafVersion>
+<!--                             <failsafe.karafGroupdId>org.jboss.fuse</failsafe.karafGroupdId> -->
+<!--                             <failsafe.karafArtifactId>jboss-fuse-full</failsafe.karafArtifactId> -->
+<!--                             <failsafe.karafVersion>${fuse-version}</failsafe.karafVersion> -->
+                            <failsafe.karafPackaging>zip</failsafe.karafPackaging>
+                            <failsafe.buildArtifactName>${project.artifactId}-${project.version}.jar</failsafe.buildArtifactName>
+                            <failsafe.buildDirectory>${project.build.directory}/</failsafe.buildDirectory>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.felix</groupId>
+                                        <artifactId>maven-bundle-plugin</artifactId>
+                                        <versionRange>[${maven-bundle-plugin-version},)</versionRange>
+                                        <goals>
+                                            <goal>cleanVersions</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.servicemix.tooling</groupId>
+                                        <artifactId>depends-maven-plugin</artifactId>
+                                        <versionRange>[1.2,)</versionRange>
+                                        <goals>
+                                            <goal>generate-depends-file</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.cxf</groupId>
+                                        <artifactId>cxf-codegen-plugin</artifactId>
+                                        <versionRange>[${cxf-version},)</versionRange>
+                                        <goals>
+                                            <goal>wsdl2java</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                cxf-codegen-plugin:${cxf.version}:
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin-version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>cleanVersions</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>cleanVersions</goal>
+                        </goals>
+                        <configuration>
+                            <versions>
+                                <osgi.version>${project.version}</osgi.version>
+                            </versions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>jms.broker</id>
+            <build>
+                <defaultGoal>test</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.activemq.tooling</groupId>
+                        <artifactId>maven-activemq-plugin</artifactId>
+                        <version>${activemq-version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-api</artifactId>
+                                <version>${slf4j-version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-log4j12</artifactId>
+                                <version>${slf4j-version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>log4j</groupId>
+                                <artifactId>log4j</artifactId>
+                                <version>${log4j-version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
+

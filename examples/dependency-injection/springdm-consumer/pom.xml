@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jboss.fuse.readiness</groupId>
     <artifactId>module4-parent</artifactId>
-    <version>${claim.version}</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
   <artifactId>springdm-consumer</artifactId>
   <packaging>bundle</packaging>
@@ -95,7 +95,11 @@
                 <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                 <Bundle-Version>${project.version}</Bundle-Version>
                 <Export-Package>org.springdm.consumer;version=${project.version}</Export-Package>
-                <Import-Package>*</Import-Package>
+                <Import-Package>
+                    !org.springdm.consumer,
+                    *
+                </Import-Package>
+                <Private-Package>org.springdm.consumer.impl</Private-Package>
             </instructions>
         </configuration>
       </plugin>

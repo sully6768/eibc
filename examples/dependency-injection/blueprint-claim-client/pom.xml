@@ -1,10 +1,59 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.jboss.fuse.readiness</groupId>
-    <artifactId>module4-parent</artifactId>
-    <version>${claim.version}</version>
-  </parent>
-  <artifactId>blueprint-claim-client</artifactId>
-  <name>Module 4 :: Blueprint Claim Client</name>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss.fuse.readiness</groupId>
+        <artifactId>module4-parent</artifactId>
+        <version>${claim.version}</version>
+    </parent>
+    <artifactId>blueprint-claim-client</artifactId>
+    <name>Module 4 :: Blueprint Claim Client</name>
+    <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.fuse.readiness</groupId>
+            <artifactId>claim-model</artifactId>
+            <version>${claim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.fuse.readiness</groupId>
+            <artifactId>blueprint-claim-service</artifactId>
+            <version>${claim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <manifestLocation>target/META-INF</manifestLocation>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>
+                            !blueprint.claim.activator,
+                            *
+                        </Import-Package>
+                        <Private-Package>
+                            blueprint.claim.activator
+                        </Private-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

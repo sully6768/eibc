@@ -26,7 +26,6 @@ public class SimpleServiceProvider implements SimpleService {
 
     @Override
     public void sayHello() {
-        LOGGER.info("Hello component", new Exception("We have a test error"));
         LOGGER.info("Hello again component");   
     }
 

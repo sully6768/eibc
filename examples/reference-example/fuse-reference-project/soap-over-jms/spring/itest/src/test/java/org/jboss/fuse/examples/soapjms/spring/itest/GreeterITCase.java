@@ -171,7 +171,16 @@ public class GreeterITCase {
                    // Contains a custom Fuse MQ installation configuration
                    new KarafDistributionConfigurationFileReplacementOption("etc/org.fusesource.mq.fabric.server-default.cfg", 
                                                                            new File("src/test/resources/etc/org.fusesource.mq.fabric.server-default.cfg")),
-    
+
+                   // This is a modified feature configuration that includes
+                   // our SOAP/JMS Feature Files
+                   new KarafDistributionConfigurationFileReplacementOption("etc/org.jboss.fuse.examples.soapjms.spring.server.cfg",
+                                                                           new File("src/test/resources/etc/org.jboss.fuse.examples.soapjms.spring.server.cfg")),
+                   
+                   // This is a modified feature configuration that includes
+                   // our SOAP/JMS Feature Files
+                   new KarafDistributionConfigurationFileReplacementOption("etc/org.jboss.fuse.examples.soapjms.spring.client.cfg",
+                                                                           new File("src/test/resources/etc/org.jboss.fuse.examples.soapjms.spring.client.cfg")),
                    // This is a modified feature configuration that includes
                    // our SOAP/JMS Feature Files
                    new KarafDistributionConfigurationFileReplacementOption("etc/org.apache.karaf.features.cfg",

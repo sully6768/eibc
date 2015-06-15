@@ -373,12 +373,12 @@
                     </executions>
                     <configuration>
                         <systemPropertyVariables>
-                            <failsafe.karafGroupdId>io.fabric8</failsafe.karafGroupdId>
-                            <failsafe.karafArtifactId>fabric8-karaf</failsafe.karafArtifactId>
-                            <failsafe.karafVersion>1.0.0.redhat-379</failsafe.karafVersion>
-<!--                             <failsafe.karafGroupdId>org.jboss.fuse</failsafe.karafGroupdId> -->
-<!--                             <failsafe.karafArtifactId>jboss-fuse-full</failsafe.karafArtifactId> -->
-<!--                             <failsafe.karafVersion>${fuse-version}</failsafe.karafVersion> -->
+<!--                             <failsafe.karafGroupdId>io.fabric8</failsafe.karafGroupdId> -->
+<!--                             <failsafe.karafArtifactId>fabric8-karaf</failsafe.karafArtifactId> -->
+<!--                             <failsafe.karafVersion>1.0.0.redhat-379</failsafe.karafVersion> -->
+                            <failsafe.karafGroupdId>org.jboss.fuse</failsafe.karafGroupdId>
+                            <failsafe.karafArtifactId>jboss-fuse-full</failsafe.karafArtifactId>
+                            <failsafe.karafVersion>${fuse-version}</failsafe.karafVersion>
                             <failsafe.karafPackaging>zip</failsafe.karafPackaging>
                             <failsafe.buildArtifactName>${project.artifactId}-${project.version}.jar</failsafe.buildArtifactName>
                             <failsafe.buildDirectory>${project.build.directory}/</failsafe.buildDirectory>

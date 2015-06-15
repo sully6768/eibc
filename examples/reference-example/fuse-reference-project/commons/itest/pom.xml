@@ -106,12 +106,12 @@
 <!--             <artifactId>paxexam-karaf-container</artifactId> -->
 <!--             <version>${paxexam-karaf-container-version}</version> -->
 <!--         </dependency> -->
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-karaf</artifactId>
-            <version>1.0.0.redhat-379</version>
-            <type>zip</type>
-            <scope>provided</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>io.fabric8</groupId> -->
+<!--             <artifactId>fabric8-karaf</artifactId> -->
+<!--             <version>1.0.0.redhat-379</version> -->
+<!--             <type>zip</type> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
     </dependencies>
 </project>

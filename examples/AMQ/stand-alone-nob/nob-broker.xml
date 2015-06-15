@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:amq="http://activemq.apache.org/schema/core"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!-- Allows the use of system properties and fabric as variables in this configuration file -->
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property
+            name="properties">
+            <bean
+                class="org.fusesource.mq.fabric.ConfigurationProperties" />
+        </property>
+    </bean>
+
+
+    <!-- ********************************************************* -->
+    <!-- Broker Definition Template                                -->
+    <!-- ********************************************************* -->
+    <!-- This XML is a template file that is tied to the property  -->
+    <!-- file org.fusesource.mq.fabric.server-broker1.cfg.  Any    -->
+    <!-- modifications to the property file will be picked up by   -->
+    <!-- the container and applied to this broker configuration.   -->
+    <!-- Any changes made to the property names must be updated    -->
+    <!-- here as well.  You may add new property values if you     -->
+    <!-- desire and reference them in this template.               -->
+    <!-- ********************************************************* -->
+    <broker
+        xmlns="http://activemq.apache.org/schema/core"
+        brokerName="${broker.name}"
+        dataDirectory="${data}"
+        dedicatedTaskRunner="true"
+        useJmx="true"
+        persistent="false">
+        
+        <!-- ********************************************************* -->
+        <!-- Destination Policies                                      -->
+        <!-- ********************************************************* -->
+        <!-- Destination policies are used to tune individual or       -->
+        <!-- groups of destinations.  Key tuning values are            -->
+        <!-- producer flow control, memory usage and enabling the VM   -->
+        <!-- Queue Cursor.                                             --> 
+        <!--                                                           -->
+        <!-- More information can be found her:                        -->
+        <!-- http://activemq.apache.org/per-destination-policies.html -->
+        <!-- ********************************************************* -->
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry
+                        queue="${dest.group.si.queue}"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="${dest.group.si.queue.memoryLimit}">
+                        <pendingQueuePolicy>
+                            <vmQueueCursor />
+                        </pendingQueuePolicy>
+                        <amq:networkBridgeFilterFactory>
+                            <conditionalNetworkBridgeFilterFactory
+                                replayWhenNoConsumers="true" />
+                        </amq:networkBridgeFilterFactory>
+                    </policyEntry>
+                    
+                    <!-- 
+                        Default Policies 
+                    -->
+                    <policyEntry
+                        topic=">"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="10mb">
+                        <pendingMessageLimitStrategy>
+                            <constantPendingMessageLimitStrategy
+                                limit="10" />
+                        </pendingMessageLimitStrategy>
+                    </policyEntry>
+                    <policyEntry
+                        queue=">"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="10mb">
+                        <pendingQueuePolicy>
+                            <vmQueueCursor />
+                        </pendingQueuePolicy>
+                        <amq:networkBridgeFilterFactory>
+                            <conditionalNetworkBridgeFilterFactory
+                                replayWhenNoConsumers="true" />
+                        </amq:networkBridgeFilterFactory>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+
+        
+        <!-- ********************************************************* -->
+        <!-- JMX Configuration - DO NOT MODIFY                         -->
+        <!-- ********************************************************* -->
+        <!-- The following configures ActiveMQ to use Karaf's JMX      -->
+        <!-- Server to expose MBeans                                   -->
+        <!-- ********************************************************* -->
+        <managementContext>
+            <managementContext
+                createConnector="false" />
+        </managementContext>
+
+
+        <!-- ********************************************************* -->
+        <!-- Network Connectors                                        -->
+        <!-- ********************************************************* -->
+        <!-- Network Connectors (bridge) provides High Availability in -->
+        <!-- ActiveMQ. This configuration element creates a singleton  -->
+        <!-- bridge where messages produced on a given broker are then -->
+        <!-- forwarded to any other networked broker with a consumer   -->
+        <!-- for that producers destination.                           -->
+        <!--                                                           -->
+        <!-- By default all messages, including broker advisory        -->
+        <!-- messages are forwarded across the bridge. Therefore it is -->
+        <!-- important to configure a dynamicallyIncludedDestination   -->
+        <!-- filter that may have one or more destinations to clearly  -->
+        <!-- include what destinations are to be delivered by the      -->
+        <!-- bridge.                                                   -->
+        <!--                                                           -->
+        <!-- For clarity it maybe helpful to explicitly exclude        -->
+        <!-- certain destinations such as queues that are actually     -->
+        <!-- a Virtual Topic.  See Virtual Topics above for more       -->
+        <!-- details.                                                  -->
+        <!--                                                           -->
+        <!--                                                           -->
+        <!-- More information can be found her:                        -->
+        <!-- http://activemq.apache.org/networks-of-brokers.html       -->
+        <!-- ********************************************************* -->
+        <networkConnectors>
+            <networkConnector
+                name="${broker.network.connector.1.name}"
+                uri="${broker.network.connector.1.uri}"
+                userName="admin"
+                password="admin"
+                conduitSubscriptions="false"
+                decreaseNetworkConsumerPriority="true"
+                >
+                <dynamicallyIncludedDestinations>
+                    <queue
+                        physicalName="${dest.group.si.queue}" />
+                </dynamicallyIncludedDestinations>
+            </networkConnector>
+            <networkConnector
+                name="${broker.network.connector.2.name}"
+                uri="${broker.network.connector.2.uri}"
+                userName="admin"
+                password="admin"
+                conduitSubscriptions="false"
+                decreaseNetworkConsumerPriority="true">
+                <dynamicallyIncludedDestinations>
+                    <queue
+                        physicalName="${dest.group.si.queue}" />
+                </dynamicallyIncludedDestinations>
+            </networkConnector>
+        </networkConnectors>
+
+
+
+        <!-- ********************************************************* -->
+        <!-- Default Persistence Adapter                               -->
+        <!-- ********************************************************* -->
+        <!-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_A-MQ/6.1/html/Configuring_Broker_Persistence/files/front.html -->
+        <!-- ********************************************************* -->
+        <!--         <amq:persistenceAdapter> -->
+        <!--             <amq:memoryPersistenceAdapter /> -->
+        <!--         </amq:persistenceAdapter -->
+
+
+
+        <!-- ********************************************************* -->
+        <!-- KahaDB Distributed Persistence Adapter                    -->
+        <!-- ********************************************************* -->
+        <!-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_A-MQ/6.1/html/Configuring_Broker_Persistence/files/FuseMBKahaDB.html -->
+        <!-- ********************************************************* -->
+<!--         <amq:persistenceAdapter> -->
+<!--             <amq:mKahaDB -->
+<!--                 directory="${broker.data.dir}"> -->
+<!--                 <amq:filteredPersistenceAdapters> -->
+<!--                     <filteredKahaDB -->
+<!--                         queue=">"> -->
+<!--                         <persistenceAdapter> -->
+<!--                             <kahaDB -->
+<!--                                 journalMaxFileLength="32mb" /> -->
+<!--                         </persistenceAdapter> -->
+<!--                     </filteredKahaDB> -->
+<!--                     <filteredKahaDB -->
+<!--                         topic=">"> -->
+<!--                         <persistenceAdapter> -->
+<!--                             <kahaDB -->
+<!--                                 journalMaxFileLength="32mb" /> -->
+<!--                         </persistenceAdapter> -->
+<!--                     </filteredKahaDB> -->
+<!--                     kahaDB per destinations -->
+<!--                     <filteredKahaDB -->
+<!--                         perDestination="true"> -->
+<!--                         <persistenceAdapter> -->
+<!--                             <kahaDB -->
+<!--                                 journalMaxFileLength="32mb" /> -->
+<!--                         </persistenceAdapter> -->
+<!--                     </filteredKahaDB> -->
+<!--                 </amq:filteredPersistenceAdapters> -->
+<!--             </amq:mKahaDB> -->
+<!--         </amq:persistenceAdapter> -->
+        
+
+        <!-- ********************************************************* -->
+        <!-- KahaDB Distributed Persistence Adapter                    -->
+        <!-- ********************************************************* -->
+        <!-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_A-MQ/6.1/html/Configuring_Broker_Persistence/files/LevelDBConfiguration.html -->
+        <!-- ********************************************************* -->
+        <amq:persistenceAdapter>
+            <amq:levelDB
+                directory="${broker.data.dir}" />
+        </amq:persistenceAdapter>                
+
+        <!-- ********************************************************* -->
+        <!-- JAAS Authentication Configurations                        -->
+        <!-- ********************************************************* -->
+        <!-- Add users to the users.properties file under the etc      -->
+        <!-- directory                                                 -->
+        <!--                                                           -->
+        <!-- Also refer to the following documentation for JAAS Config:-->
+        <!-- https://access.redhat.com/site/documentation/en-US/JBoss_Fuse/6.0/html/Security_Guide/files/SecureBroker.html -->
+        <!-- ********************************************************* -->
+        <plugins>
+            <jaasAuthenticationPlugin
+                configuration="karaf" />
+        </plugins>
+        
+        <!-- ********************************************************* -->
+        <!-- System Usage Configurations                               -->
+        <!-- ********************************************************* -->
+        <!-- The cumulative value that all our destination policies    -->
+        <!-- fall under. The memory value should be sized to fit under   -->
+        <!-- the Maximum Heap size also -->
+        <!-- ********************************************************* -->
+        <systemUsage>
+            <systemUsage
+                sendFailIfNoSpace="true">
+                <memoryUsage>
+                    <memoryUsage
+                        limit="${memory.usage}" />
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage
+                        limit="${store.usage}" />
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage
+                        limit="${temp.usage}" />
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+
+        
+        <!-- ********************************************************* -->
+        <!-- Transport Configurations                                  -->
+        <!-- ********************************************************* -->
+        <!-- The transport connectors ActiveMQ will listen to          -->
+        <!-- ********************************************************* -->
+        <transportConnectors>
+            
+            <!-- This is the connection used by any clients.  -->
+            <transportConnector
+                name="${broker.transport.client.name}"
+                uri="${broker.transport.client.uri}"
+                updateClusterClients="true"
+                updateClusterClientsOnRemove="true"
+                rebalanceClusterClients="true" />
+            <transportConnector
+                name="${broker.transport.network.name}"
+                uri="${broker.transport.network.uri}" />
+        </transportConnectors>
+
+    </broker>
+</beans>

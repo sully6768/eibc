@@ -54,10 +54,10 @@
             <policyMap>
                 <policyEntries>
                     <policyEntry
-                        queue="${dest.group.si.queue}"
+                        queue="${dest.group.default.queue}"
                         producerFlowControl="true"
                         cursorMemoryHighWaterMark="100"
-                        memoryLimit="${dest.group.si.queue.memoryLimit}">
+                        memoryLimit="${dest.group.default.queue.memoryLimit}">
                         <pendingQueuePolicy>
                             <vmQueueCursor />
                         </pendingQueuePolicy>
@@ -146,7 +146,7 @@
                 >
                 <dynamicallyIncludedDestinations>
                     <queue
-                        physicalName="${dest.group.si.queue}" />
+                        physicalName="${dest.group.default.queue}" />
                 </dynamicallyIncludedDestinations>
             </networkConnector>
             <networkConnector
@@ -158,7 +158,7 @@
                 decreaseNetworkConsumerPriority="true">
                 <dynamicallyIncludedDestinations>
                     <queue
-                        physicalName="${dest.group.si.queue}" />
+                        physicalName="${dest.group.default.queue}" />
                 </dynamicallyIncludedDestinations>
             </networkConnector>
         </networkConnectors>

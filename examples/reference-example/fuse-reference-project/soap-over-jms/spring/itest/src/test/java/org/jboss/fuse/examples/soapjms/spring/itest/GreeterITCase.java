@@ -22,14 +22,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.options;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
 
 import javax.inject.Inject;
 
-import org.apache.felix.service.command.CommandProcessor;
-import org.apache.felix.service.command.CommandSession;
 import org.apache.karaf.tooling.exam.options.KarafDistributionConfigurationFileReplacementOption;
 import org.apache.karaf.tooling.exam.options.LogLevelOption.LogLevel;
 import org.jboss.fuse.examples.services.greeter.Greeter;
@@ -57,9 +53,6 @@ public class GreeterITCase {
 
     @Inject
     private BundleContext bundleContext;
-    
-    @Inject
-    private CommandProcessor commandProcessor;
 
     /**
      * Verifies that the bundle has been installed and is in the
@@ -75,17 +68,6 @@ public class GreeterITCase {
         assertBundleActive("org.jboss.fuse.examples.soapjms.spring.server");
         assertBundleActive("org.jboss.fuse.examples.soapjms.spring.client");
         
-        assertNotNull("CommandProcessor is null:", commandProcessor);
-        
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        PrintStream printStream = new PrintStream(byteArrayOutputStream);
-//        CommandSession commandSession = commandProcessor.createSession(System.in, printStream, System.err);
-//        commandSession.put("APPLICATION", System.getProperty("karaf.name", "root"));
-//        commandSession.put("USER", "karaf");
-//        commandSession.execute("config:edit org.jboss.fuse.examples.soapjms.spring.server");
-//        String output = commandSession.execute("config:proplist");
-        
-//        assertTrue("String not found: " + output, output.indexOf("soap.server.consumer.inonly.queue") > -1);
         
         Greeter greeter = retrieveGreeterService();
         assertNotNull(greeter);
@@ -102,10 +84,10 @@ public class GreeterITCase {
         ServiceTracker tracker = new ServiceTracker(bundleContext, 
               Greeter.class.getName(), null);
         tracker.open();
-        Greeter pigLatinService = (Greeter) tracker.waitForService(5000);
+        Greeter greeterService = (Greeter) tracker.waitForService(5000);
         tracker.close();
-        assertNotNull(pigLatinService);
-        return pigLatinService;
+        assertNotNull(greeterService);
+        return greeterService;
      }
 
     /**

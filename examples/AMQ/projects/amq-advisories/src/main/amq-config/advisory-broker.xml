@@ -49,18 +49,6 @@
         <destinationPolicy>
             <policyMap>
                 <policyEntries>
-                    <policyEntry
-                        queue="${dest.group.test.queue}"
-                        producerFlowControl="true"
-                        cursorMemoryHighWaterMark="100"
-                        memoryLimit="${dest.group.default.queue.memoryLimit}"
-                        advisoryForDelivery="true"
-                        advisoryForConsumed="true">
-                        <pendingQueuePolicy>
-                            <vmQueueCursor />
-                        </pendingQueuePolicy>
-                    </policyEntry>
-                    
                     <!-- 
                         Default Policies 
                     -->
@@ -68,25 +56,17 @@
                         topic="${dest.group.default.topic}"
                         producerFlowControl="true"
                         cursorMemoryHighWaterMark="100"
-                        memoryLimit="${dest.group.default.topic.memoryLimit}">
-                        <amq:pendingDurableSubscriberPolicy>
-                            <amq:fileDurableSubscriberCursor/>
-                        </amq:pendingDurableSubscriberPolicy>
-                        <pendingMessageLimitStrategy>
-                            <constantPendingMessageLimitStrategy limit="10" />
-                        </pendingMessageLimitStrategy>
+                        memoryLimit="${dest.group.default.topic.memoryLimit}"
+                        advisoryForConsumed="true"
+                        advisoryForDelivery="true">
                     </policyEntry>
                     <policyEntry
                         queue="${dest.group.default.queue}"
                         producerFlowControl="true"
                         cursorMemoryHighWaterMark="100"
-                        memoryLimit="${dest.group.default.queue.memoryLimit}">
-                        <pendingQueuePolicy>
-                            <amq:fileQueueCursor />
-                        </pendingQueuePolicy>
-                        <amq:networkBridgeFilterFactory>
-                            <conditionalNetworkBridgeFilterFactory replayWhenNoConsumers="true" />
-                        </amq:networkBridgeFilterFactory>
+                        memoryLimit="${dest.group.default.queue.memoryLimit}"
+                        advisoryForConsumed="true"
+                        advisoryForDelivery="true">
                     </policyEntry>
                 </policyEntries>
             </policyMap>
@@ -102,7 +82,6 @@
         <managementContext>
             <managementContext createConnector="false" />
         </managementContext>
-
 
 
         <!-- ********************************************************* -->

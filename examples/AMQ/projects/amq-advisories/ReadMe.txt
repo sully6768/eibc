@@ -1,7 +1,17 @@
-Camel Router Project for Spring-DM (OSGi)
+AMQ Advisory Message Demo with Camel and Spring-DM (OSGi)
 =========================================
 
-To build this project use
+Install JBoss AMQ
+
+Start JBoss AMQ
+./bin/amq clean
+
+Copy the AMQ Config to the etc directory of your JBoss AMQ installation
+
+src/main/amq-configs/advisory-broker.xml
+src/main/amq-config/org.fusesource.mq.fabric.server-advisory_broker.cfg
+
+To build this project use 
 
     mvn install
 

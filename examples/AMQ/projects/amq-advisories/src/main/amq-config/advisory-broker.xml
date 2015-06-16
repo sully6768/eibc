@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:amq="http://activemq.apache.org/schema/core"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!-- Allows the use of system properties and fabric as variables in this configuration file -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <bean class="org.fusesource.mq.fabric.ConfigurationProperties" />
+        </property>
+    </bean>
+
+
+    <!-- ********************************************************* -->
+    <!-- Broker Definition Template                                -->
+    <!-- ********************************************************* -->
+    <!-- This XML is a template file that is tied to the property  -->
+    <!-- file org.fusesource.mq.fabric.server-broker1.cfg.  Any    -->
+    <!-- modifications to the property file will be picked up by   -->
+    <!-- the container and applied to this broker configuration.   -->
+    <!-- Any changes made to the property names must be updated    -->
+    <!-- here as well.  You may add new property values if you     -->
+    <!-- desire and reference them in this template.               -->
+    <!-- ********************************************************* -->
+    <broker
+        xmlns="http://activemq.apache.org/schema/core"
+        brokerName="${broker.name}"
+        dataDirectory="${data}"
+        dedicatedTaskRunner="true"
+        useJmx="true">
+        
+        <!-- ********************************************************* -->
+        <!-- Destination Policies                                      -->
+        <!-- ********************************************************* -->
+        <!-- Destination policies are used to tune individual or       -->
+        <!-- groups of destinations.  Key tuning values are            -->
+        <!-- producer flow control, memory usage and enabling the VM   -->
+        <!-- Queue Cursor.                                             --> 
+        <!--                                                           -->
+        <!-- More information can be found her:                        -->
+        <!-- http://activemq.apache.org/per-destination-policies.html -->
+        <!-- ********************************************************* -->
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry
+                        queue="${dest.group.test.queue}"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="${dest.group.default.queue.memoryLimit}"
+                        advisoryForDelivery="true"
+                        advisoryForConsumed="true">
+                        <pendingQueuePolicy>
+                            <vmQueueCursor />
+                        </pendingQueuePolicy>
+                    </policyEntry>
+                    
+                    <!-- 
+                        Default Policies 
+                    -->
+                    <policyEntry
+                        topic="${dest.group.default.topic}"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="${dest.group.default.topic.memoryLimit}">
+                        <amq:pendingDurableSubscriberPolicy>
+                            <amq:fileDurableSubscriberCursor/>
+                        </amq:pendingDurableSubscriberPolicy>
+                        <pendingMessageLimitStrategy>
+                            <constantPendingMessageLimitStrategy limit="10" />
+                        </pendingMessageLimitStrategy>
+                    </policyEntry>
+                    <policyEntry
+                        queue="${dest.group.default.queue}"
+                        producerFlowControl="true"
+                        cursorMemoryHighWaterMark="100"
+                        memoryLimit="${dest.group.default.queue.memoryLimit}">
+                        <pendingQueuePolicy>
+                            <amq:fileQueueCursor />
+                        </pendingQueuePolicy>
+                        <amq:networkBridgeFilterFactory>
+                            <conditionalNetworkBridgeFilterFactory replayWhenNoConsumers="true" />
+                        </amq:networkBridgeFilterFactory>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+
+        
+        <!-- ********************************************************* -->
+        <!-- JMX Configuration - DO NOT MODIFY                         -->
+        <!-- ********************************************************* -->
+        <!-- The following configures ActiveMQ to use Karaf's JMX      -->
+        <!-- Server to expose MBeans                                   -->
+        <!-- ********************************************************* -->
+        <managementContext>
+            <managementContext createConnector="false" />
+        </managementContext>
+
+
+
+        <!-- ********************************************************* -->
+        <!-- Default Persistence Adapter                               -->
+        <!-- ********************************************************* -->
+        <!-- https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_A-MQ/6.1/html/Configuring_Broker_Persistence/files/front.html -->
+        <!-- ********************************************************* -->
+        <amq:persistenceAdapter>
+            <amq:memoryPersistenceAdapter />
+        </amq:persistenceAdapter>
+
+
+        <!-- ********************************************************* -->
+        <!-- JAAS Authentication Configurations                        -->
+        <!-- ********************************************************* -->
+        <!-- Add users to the users.properties file under the etc      -->
+        <!-- directory                                                 -->
+        <!--                                                           -->
+        <!-- Also refer to the following documentation for JAAS Config:-->
+        <!-- https://access.redhat.com/site/documentation/en-US/JBoss_Fuse/6.0/html/Security_Guide/files/SecureBroker.html -->
+        <!-- ********************************************************* -->
+        <plugins>
+            <jaasAuthenticationPlugin configuration="karaf" />
+        </plugins>
+        
+        <!-- ********************************************************* -->
+        <!-- System Usage Configurations                               -->
+        <!-- ********************************************************* -->
+        <!-- The cumulative value that all our destination policies    -->
+        <!-- fall under. The memory value should be sized to fit under   -->
+        <!-- the Maximum Heap size also -->
+        <!-- ********************************************************* -->
+        <systemUsage>
+            <systemUsage sendFailIfNoSpace="true">
+                <memoryUsage>
+                    <memoryUsage limit="${memory.usage}" />
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="${store.usage}" />
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="${temp.usage}" />
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+
+        
+        <!-- ********************************************************* -->
+        <!-- Transport Configurations                                  -->
+        <!-- ********************************************************* -->
+        <!-- The transport connectors ActiveMQ will listen to          -->
+        <!-- ********************************************************* -->
+        <transportConnectors>
+            
+            <!-- This is the connection used by any clients.  -->
+            <transportConnector
+                name="${broker.transport.client.name}"
+                uri="${broker.transport.client.uri}" />
+        </transportConnectors>
+
+    </broker>
+</beans>
